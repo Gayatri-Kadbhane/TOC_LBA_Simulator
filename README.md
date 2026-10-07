@@ -16,12 +16,12 @@ The **TOC LBA Simulator** is an educational web application developed as part of
 
 The main purpose of this project is to provide an interactive understanding of:
 
-- Context-Sensitive Languages
-- Linear Bounded Automata
-- LBA tape operations
-- State transitions
-- String acceptance and rejection
-- Symbol marking and matching
+* Context-Sensitive Languages
+* Linear Bounded Automata
+* LBA tape operations
+* State transitions
+* String acceptance and rejection
+* Symbol marking and matching
 
 The simulator uses a **mark-and-match approach** to process the input string.
 
@@ -44,158 +44,204 @@ The objective of this project is to design and implement a simple web-based simu
 
 The simulator recognizes the language:
 
-```text
-L = { aⁿbⁿcⁿ | n ≥ 1 }
+> **L = { aⁿbⁿcⁿ | n ≥ 1 }**
 
 This means that the input must contain:
 
-One or more a symbols
-Followed by the same number of b symbols
-Followed by the same number of c symbols
-Examples
-Input	Result
-abc	✅ Accepted
-aabbcc	✅ Accepted
-aaabbbccc	✅ Accepted
-aabbbccc	❌ Rejected
-aaabbcc	❌ Rejected
-abcabc	❌ Rejected
-aabbc	❌ Rejected
-⚙️ Working Methodology
+* One or more `a` symbols
+* Followed by the same number of `b` symbols
+* Followed by the same number of `c` symbols
 
-The simulator follows a mark-and-match technique.
+### Examples
 
-Step 1: Read a
+|    Input    |   Result   |
+| :---------: | :--------: |
+|    `abc`    | ✅ Accepted |
+|   `aabbcc`  | ✅ Accepted |
+| `aaabbbccc` | ✅ Accepted |
+|  `aabbbccc` | ❌ Rejected |
+|  `aaabbcc`  | ❌ Rejected |
+|   `abcabc`  | ❌ Rejected |
+|   `aabbc`   | ❌ Rejected |
 
-The LBA searches for an unmarked a and replaces it with X.
+---
 
-a → X
-Step 2: Match b
+## ⚙️ Working Methodology
 
-The corresponding b is found and replaced with Y.
+The simulator follows a **mark-and-match technique**.
 
-b → Y
-Step 3: Match c
+### Step 1: Read `a`
 
-The corresponding c is found and replaced with Z.
+The LBA searches for an unmarked `a` and replaces it with `X`.
 
-c → Z
-Step 4: Repeat
+**a → X**
+
+### Step 2: Match `b`
+
+The corresponding `b` is found and replaced with `Y`.
+
+**b → Y**
+
+### Step 3: Match `c`
+
+The corresponding `c` is found and replaced with `Z`.
+
+**c → Z**
+
+### Step 4: Repeat
 
 The process is repeated until all input symbols are marked.
 
-Step 5: Final Decision
+### Step 5: Final Decision
 
-If all symbols are successfully matched, the input is Accepted.
+If all symbols are successfully matched, the input is **Accepted**.
 
-Otherwise, the input is Rejected.
+Otherwise, the input is **Rejected**.
 
-Example:
+### Example
 
-Input:
-aaabbbccc
+**Input:**
 
-Final Tape:
-XXXYYYZZZ
+`aaabbbccc`
 
-Result:
-Accepted
-🔄 LBA States
+**Final Tape:**
+
+`XXXYYYZZZ`
+
+**Result:**
+
+✅ **Accepted**
+
+---
+
+## 🔄 LBA States
 
 The simulator uses the following conceptual states:
 
-State	Description
-q0	Initial state
-q1	Find and mark a
-q2	Find and mark b
-q3	Find and mark c
-q4	Move toward the left side
-q_accept	Input accepted
-q_reject	Input rejected
-🖥️ Features
-Interactive input field
-LBA simulation
-Accepted/Rejected result display
-Input validation
-Symbol count display
-Visual tape representation
-Head position display
-Execution trace
-Predefined test cases
-Responsive user interface
-Simple and student-friendly design
-🛠️ Technologies Used
-Technology	Purpose
-HTML5	Website structure
-CSS3	Styling and responsive design
-JavaScript	LBA simulation and interaction
-Git	Version control
-GitHub	Project hosting
-📁 Project Structure
+| State      | Description               |
+| ---------- | ------------------------- |
+| `q0`       | Initial state             |
+| `q1`       | Find and mark `a`         |
+| `q2`       | Find and mark `b`         |
+| `q3`       | Find and mark `c`         |
+| `q4`       | Move toward the left side |
+| `q_accept` | Input accepted            |
+| `q_reject` | Input rejected            |
+
+---
+
+## 🖥️ Features
+
+* Interactive input field
+* LBA simulation
+* Accepted/Rejected result display
+* Input validation
+* Symbol count display
+* Visual tape representation
+* Head position display
+* Execution trace
+* Predefined test cases
+* Responsive user interface
+* Simple and student-friendly design
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose                        |
+| ---------- | ------------------------------ |
+| HTML5      | Website structure              |
+| CSS3       | Styling and responsive design  |
+| JavaScript | LBA simulation and interaction |
+| Git        | Version control                |
+| GitHub     | Project hosting                |
+
+---
+
+## 📁 Project Structure
+
+```text
 TOC_LBA_Simulator/
 │
 ├── index.html
 ├── style.css
 ├── script.js
 └── README.md
-File Description
+```
 
-index.html
+### File Description
 
+**index.html**
 Contains the structure and content of the simulator.
 
-style.css
-
+**style.css**
 Contains the styling, layout, colors, tables, tape design, and responsive interface.
 
-script.js
-
+**script.js**
 Contains input validation, LBA simulation logic, tape processing, result generation, and execution trace.
 
-README.md
-
+**README.md**
 Contains project documentation and information.
 
-▶️ How to Run the Project
-Option 1: Directly in Browser
-Download or clone the repository.
-Open the project folder.
-Open index.html.
-The simulator will run in your web browser.
-Option 2: Using VS Code
+---
 
-Open the project folder in Visual Studio Code.
+## ▶️ How to Run the Project
 
+### Option 1: Directly in Browser
+
+1. Download or clone the repository.
+2. Open the project folder.
+3. Open `index.html`.
+4. The simulator will run in your web browser.
+
+### Option 2: Using VS Code
+
+Open the project folder in **Visual Studio Code**.
+
+Open the terminal and run:
+
+```cmd
 cd /d "D:\New folder (2)\TOC_LBA_Simulator"
 code .
+```
 
-Install the Live Server extension if required.
+Install the **Live Server** extension if required.
 
-Right-click index.html and select:
+Then right-click `index.html` and select:
 
-Open with Live Server
-🧪 Test Cases
+**Open with Live Server**
+
+---
+
+## 🧪 Test Cases
 
 The simulator includes predefined test cases.
 
-Valid Inputs
-abc
-aabbcc
-aaabbbccc
-Invalid Inputs
-aabbbccc
-aaabbcc
-abcabc
-aabbc
-aaabbbcccd
-📊 Example
+### Valid Inputs
+
+* `abc`
+* `aabbcc`
+* `aaabbbccc`
+
+### Invalid Inputs
+
+* `aabbbccc`
+* `aaabbcc`
+* `abcabc`
+* `aabbc`
+* `aaabbbcccd`
+
+---
+
+## 📊 Example
 
 For the input:
 
-aaabbbccc
+**aaabbbccc**
 
 The simulator processes the symbols as:
 
+```text
 aaabbbccc
    ↓
 Xaabbbccc
@@ -213,25 +259,42 @@ XXXYYYZcc
 XXXYYYZZc
    ↓
 XXXYYYZZZ
-Final Result
-ACCEPTED
-🎓 Educational Purpose
+```
 
-This project is designed to help students understand the practical implementation of concepts from Theory of Computation, especially:
+### Final Result
 
-Context-Sensitive Grammar
-Context-Sensitive Languages
-Linear Bounded Automata
-Tape representation
-State transitions
-String validation
-Acceptance and rejection
-🔗 GitHub Repository
+# ✅ ACCEPTED
 
-TOC LBA Simulator – GitHub
+---
 
-👩‍💻 Author
+## 🎓 Educational Purpose
 
-Gayatri Kadbhane
+This project is designed to help students understand the practical implementation of concepts from **Theory of Computation**, especially:
+
+* Context-Sensitive Grammar
+* Context-Sensitive Languages
+* Linear Bounded Automata
+* Tape representation
+* State transitions
+* String validation
+* Acceptance and rejection
+
+---
+
+## 🔗 GitHub Repository
+
+[TOC LBA Simulator – GitHub](https://github.com/Gayatri-Kadbhane/TOC_LBA_Simulator)
+
+---
+
+## 👩‍💻 Author
+
+**Gayatri Kadbhane**
 
 Computer Engineering Student
+
+---
+
+## 📜 License
+
+This project is developed for **educational and academic purposes**.
