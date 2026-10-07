@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LBA Context-Sensitive Grammar Parser</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-box">λ</div>
+
+        <div>
+            <h1>LBA Parser</h1>
+            <p>Context-Sensitive Grammar Simulator</p>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#simulator">Simulator</a>
+        <a href="#method">Methodology</a>
+        <a href="#theory">Theory</a>
+        <a href="#tests">Test Cases</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <span class="badge">
+            THEORY OF COMPUTATION • TYPE 1 LANGUAGE
+        </span>
+
+        <h2>
+            Context-Sensitive Grammar Parser
+            using <span>Linear Bounded Automata</span>
+        </h2>
+
+        <p>
+            An interactive simulator for recognizing the language
+            <strong>L = { aⁿbⁿcⁿ | n ≥ 1 }</strong>
+            using bounded tape processing, state transitions
+            and symbol marking.
+        </p>
+
+        <a href="#simulator" class="main-button">
+            Start Simulation ↓
+        </a>
+
+    </div>
+
+
+    <div class="formula-card">
+
+        <div class="formula">
+            L = { aⁿbⁿcⁿ | n ≥ 1 }
+        </div>
+
+        <p>
+            Equal number of a, b and c in the correct order.
+        </p>
+
+        <div class="example">
+            <span>aaa</span>
+            <span>bbb</span>
+            <span>ccc</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="simulator" class="section">
+
+    <div class="section-heading">
+
+        <span>01 • INTERACTIVE SIMULATOR</span>
+
+        <h2>Run the LBA</h2>
+
+        <p>
+            Enter a string containing a, b and c and observe
+            the LBA processing.
+        </p>
+
+    </div>
+
+
+    <div class="simulation-grid">
+
+        <!-- INPUT PANEL -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h3>Input String</h3>
+                    <p>Required form: aⁿbⁿcⁿ</p>
+                </div>
+
+                <div id="state" class="state">
+                    q0 • Ready
+                </div>
+
+            </div>
+
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="input"
+                    placeholder="Example: aaabbbccc"
+                    maxlength="50"
+                >
+
+                <button id="run">
+                    Run LBA
+                </button>
+
+            </div>
+
+
+            <div class="quick">
+
+                <span>Try:</span>
+
+                <button data-value="abc">
+                    abc
+                </button>
+
+                <button data-value="aabbcc">
+                    aabbcc
+                </button>
+
+                <button data-value="aaabbbccc">
+                    aaabbbccc
+                </button>
+
+                <button data-value="aabbbccc">
+                    aabbbccc
+                </button>
+
+                <button data-value="abcabc">
+                    abcabc
+                </button>
+
+            </div>
+
+
+            <div id="result" class="result neutral">
+
+                <div class="result-icon">
+                    ?
+                </div>
+
+                <div>
+                    <h3 id="result-title">
+                        Ready to process
+                    </h3>
+
+                    <p id="result-text">
+                        Enter a string and click Run LBA.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="stats">
+
+                <div>
+                    <span>Input Length</span>
+                    <strong id="length">0</strong>
+                </div>
+
+                <div>
+                    <span>Steps</span>
+                    <strong id="steps">0</strong>
+                </div>
+
+                <div>
+                    <span>Final State</span>
+                    <strong id="final-state">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TAPE PANEL -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h3>Bounded Tape</h3>
+                    <p>Linear bounded input tape</p>
+                </div>
+
+                <div class="legend">
+
+                    <span>
+                        <i class="blue"></i>
+                        Input
+                    </span>
+
+                    <span>
+                        <i class="yellow"></i>
+                        Marked
+                    </span>
+
+                    <span>
+                        <i class="green"></i>
+                        Head
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div id="tape" class="tape">
+
+                <span class="boundary">⊢</span>
+
+                <span class="message">
+                    Run the simulator to display the tape.
+                </span>
+
+                <span class="boundary">⊣</span>
+
+            </div>
+
+
+            <div class="head-info">
+
+                Head Position:
+                <strong id="head">
+                    —
+                </strong>
+
+                <span>|</span>
+
+                Current Symbol:
+                <strong id="symbol">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TRACE -->
+
+    <div class="panel trace">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <h3>Execution Trace</h3>
+
+                <p>
+                    Step-by-step LBA execution
+                </p>
+
+            </div>
+
+            <button id="reset" class="reset">
+                Reset
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Step</th>
+                        <th>State</th>
+                        <th>Tape</th>
+                        <th>Head</th>
+                        <th>Operation</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="trace">
+
+                    <tr>
+
+                        <td colspan="5">
+                            No execution trace yet.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- METHODOLOGY -->
+
+<section id="method" class="section dark">
+
+    <div class="section-heading">
+
+        <span>02 • METHODOLOGY</span>
+
+        <h2>How the LBA Works</h2>
+
+        <p>
+            The simulator uses the mark-and-match strategy
+            described in the case study.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <b>01</b>
+
+            <h3>Validate Input</h3>
+
+            <p>
+                Check whether the input contains only a, b and c
+                and follows the required order a*b*c*.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>02</b>
+
+            <h3>Mark a</h3>
+
+            <p>
+                Find an unmarked a and replace it with X.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>03</b>
+
+            <h3>Match b</h3>
+
+            <p>
+                Move right and find an unmarked b.
+                Replace it with Y.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>04</b>
+
+            <h3>Match c</h3>
+
+            <p>
+                Find an unmarked c and replace it with Z.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>05</b>
+
+            <h3>Return</h3>
+
+            <p>
+                Move the head back toward the left side
+                of the bounded tape.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>06</b>
+
+            <h3>Accept / Reject</h3>
+
+            <p>
+                If all symbols are matched, accept.
+                Otherwise reject.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="marking">
+
+        <div>
+            <strong>a</strong>
+            →
+            <strong>X</strong>
+
+            <small>
+                Processed a
+            </small>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div>
+            <strong>b</strong>
+            →
+            <strong>Y</strong>
+
+            <small>
+                Processed b
+            </small>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div>
+            <strong>c</strong>
+            →
+            <strong>Z</strong>
+
+            <small>
+                Processed c
+            </small>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- THEORY -->
+
+<section id="theory" class="section">
+
+    <div class="section-heading">
+
+        <span>03 • THEORY</span>
+
+        <h2>Core Concepts</h2>
+
+    </div>
+
+
+    <div class="theory-grid">
+
+        <div class="theory-card">
+
+            <div class="icon">
+                Σ
+            </div>
+
+            <h3>
+                Formal Language
+            </h3>
+
+            <p>
+                A set of strings constructed from symbols
+                according to defined rules.
+            </p>
+
+            <code>
+                Σ = {a, b, c}
+            </code>
+
+        </div>
+
+
+        <div class="theory-card">
+
+            <div class="icon">
+                1
+            </div>
+
+            <h3>
+                Type 1 Language
+            </h3>
+
+            <p>
+                Context-Sensitive Languages belong to
+                Type 1 in the Chomsky hierarchy.
+            </p>
+
+            <code>
+                CSG → LBA
+            </code>
+
+        </div>
+
+
+        <div class="theory-card">
+
+            <div class="icon">
+                ▣
+            </div>
+
+            <h3>
+                Linear Bounded Automaton
+            </h3>
+
+            <p>
+                An LBA works within tape space linearly
+                bounded by the input size.
+            </p>
+
+            <code>
+                Space = O(n)
+            </code>
+
+        </div>
+
+
+        <div class="theory-card">
+
+            <div class="icon">
+                ≈
+            </div>
+
+            <h3>
+                Target Language
+            </h3>
+
+            <p>
+                Equal numbers of a, b and c must appear
+                in the correct order.
+            </p>
+
+            <code>
+                aⁿbⁿcⁿ
+            </code>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel state-table">
+
+        <h3>
+            LBA States
+        </h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>State</th>
+                    <th>Purpose</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>q0</td>
+                    <td>Initialization</td>
+                </tr>
+
+                <tr>
+                    <td>q1</td>
+                    <td>Find an unmarked a</td>
+                </tr>
+
+                <tr>
+                    <td>q2</td>
+                    <td>Find matching b</td>
+                </tr>
+
+                <tr>
+                    <td>q3</td>
+                    <td>Find matching c</td>
+                </tr>
+
+                <tr>
+                    <td>q4</td>
+                    <td>Return toward the left side</td>
+                </tr>
+
+                <tr>
+                    <td>q_accept</td>
+                    <td>Accept input</td>
+                </tr>
+
+                <tr>
+                    <td>q_reject</td>
+                    <td>Reject input</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- TEST CASES -->
+
+<section id="tests" class="section dark">
+
+    <div class="section-heading">
+
+        <span>04 • EXPERIMENTAL RESULTS</span>
+
+        <h2>Test Cases</h2>
+
+        <p>
+            Click any test case to run it.
+        </p>
+
+    </div>
+
+
+    <div class="tests">
+
+        <button data-value="abc" class="test valid">
+            <span>TC01</span>
+            <strong>abc</strong>
+            <em>ACCEPT</em>
+            <small>1, 1, 1</small>
+        </button>
+
+
+        <button data-value="aabbcc" class="test valid">
+            <span>TC02</span>
+            <strong>aabbcc</strong>
+            <em>ACCEPT</em>
+            <small>2, 2, 2</small>
+        </button>
+
+
+        <button data-value="aaabbbccc" class="test valid">
+            <span>TC03</span>
+            <strong>aaabbbccc</strong>
+            <em>ACCEPT</em>
+            <small>3, 3, 3</small>
+        </button>
+
+
+        <button data-value="aabbbccc" class="test invalid">
+            <span>TC04</span>
+            <strong>aabbbccc</strong>
+            <em>REJECT</em>
+            <small>Unequal counts</small>
+        </button>
+
+
+        <button data-value="aaabbcc" class="test invalid">
+            <span>TC05</span>
+            <strong>aaabbcc</strong>
+            <em>REJECT</em>
+            <small>Unequal counts</small>
+        </button>
+
+
+        <button data-value="abcabc" class="test invalid">
+            <span>TC06</span>
+            <strong>abcabc</strong>
+            <em>REJECT</em>
+            <small>Incorrect order</small>
+        </button>
+
+
+        <button data-value="aabbc" class="test invalid">
+            <span>TC07</span>
+            <strong>aabbc</strong>
+            <em>REJECT</em>
+            <small>Missing c</small>
+        </button>
+
+
+        <button data-value="aaabbbcccd" class="test invalid">
+            <span>TC08</span>
+            <strong>aaabbbcccd</strong>
+            <em>REJECT</em>
+            <small>Invalid symbol</small>
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<section class="conclusion">
+
+    <div>
+
+        <span>05 • CONCLUSION</span>
+
+        <h2>
+            Visualize the Theory of Computation
+        </h2>
+
+        <p>
+            This web-based simulator provides a practical
+            representation of bounded tape processing,
+            state transitions, head movement and symbol
+            matching used by a Linear Bounded Automaton.
+        </p>
+
+        <a href="#simulator" class="main-button">
+            Try Another Input ↑
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<footer>
+
+    <div>
+        <strong>LBA Parser</strong>
+        <span>Context-Sensitive Grammar Simulator</span>
+    </div>
+
+    <p>
+        Theory of Computation • Academic Year 2026–27
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
